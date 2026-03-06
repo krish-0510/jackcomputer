@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const corePrograms = [
   {
     name: "CCC",
@@ -71,12 +73,26 @@ export default function Home() {
               <p className="text-sm font-semibold text-white/90 sm:text-base">Infotech Learning Hub</p>
             </div>
           </div>
-          <a
-            href="#programs"
-            className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/90 transition-all duration-500 hover:border-cyan-200/60 hover:bg-cyan-200/10 hover:text-cyan-100"
-          >
-            Explore Courses
-          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href="#programs"
+              className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/90 transition-all duration-500 hover:border-cyan-200/60 hover:bg-cyan-200/10 hover:text-cyan-100"
+            >
+              Explore Courses
+            </a>
+            <Link
+              href="/user/login"
+              className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/90 transition-all duration-500 hover:border-cyan-200/60 hover:bg-cyan-200/10 hover:text-cyan-100"
+            >
+              Log In
+            </Link>
+            <Link
+              href="/user/register"
+              className="rounded-full bg-cyan-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-900 transition-all duration-500 hover:bg-white"
+            >
+              Register
+            </Link>
+          </div>
         </header>
 
         <section className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
@@ -97,19 +113,19 @@ export default function Home() {
               <span className="font-semibold text-fuchsia-100">Graphic Designing</span>.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a
-                href="#enroll"
+              <Link
+                href="/user/register"
                 className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 px-6 py-3 text-sm font-black uppercase tracking-[0.17em] text-slate-950 transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_0_35px_rgba(125,211,252,0.6)]"
               >
                 Start Learning
                 <span className="transition-transform duration-500 group-hover:translate-x-1">{"->"}</span>
-              </a>
-              <a
-                href="#flow"
+              </Link>
+              <Link
+                href="/user/login"
                 className="rounded-full border border-white/25 bg-white/5 px-6 py-3 text-sm font-bold uppercase tracking-[0.17em] text-white/90 transition-all duration-500 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/10"
               >
-                See Journey
-              </a>
+                Log In
+              </Link>
             </div>
           </div>
 
@@ -211,12 +227,12 @@ export default function Home() {
                 confidence.
               </p>
             </div>
-            <a
-              href="#"
+            <Link
+              href="/user/register"
               className="inline-flex items-center justify-center rounded-full border border-white/35 bg-white/15 px-7 py-3 text-sm font-black uppercase tracking-[0.18em] text-white transition-all duration-500 hover:scale-[1.03] hover:bg-white/25"
             >
               Enroll Now
-            </a>
+            </Link>
           </div>
         </section>
       </main>
