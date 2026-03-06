@@ -61,11 +61,11 @@ export default function Home() {
       <div className="pointer-events-none absolute inset-0 [background:radial-gradient(circle_at_20%_18%,rgba(34,211,238,0.16),transparent_32%),radial-gradient(circle_at_80%_0%,rgba(168,85,247,0.14),transparent_36%),radial-gradient(circle_at_80%_80%,rgba(244,114,182,0.12),transparent_28%)]" />
       <div className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full bg-cyan-300/15 blur-3xl motion-safe:animate-[pulse_7s_cubic-bezier(0.4,0,0.6,1)_infinite]" />
       <div className="pointer-events-none absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-violet-300/15 blur-3xl motion-safe:animate-[pulse_9s_cubic-bezier(0.4,0,0.6,1)_infinite]" />
-      <div className="pointer-events-none absolute left-1/2 top-28 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full border border-white/10 [mask-image:radial-gradient(transparent_57%,black_60%)] motion-safe:animate-[spin_36s_linear_infinite]" />
+      <div className="pointer-events-none absolute left-1/2 top-28 h-12030rem] -translate-x-1/2 rounded-full border border-white/10 mask-[radial-gradient(transparent_57%,black_60%)] motion-safe:animate-[spin_36s_linear_infinite]" />
       <main className="relative mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-16 pt-8 sm:px-10 lg:px-14">
         <header className="flex items-center justify-between rounded-2xl border border-white/15 bg-white/5 px-4 py-3 backdrop-blur-xl sm:px-6">
           <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-violet-300 text-sm font-black text-slate-900 shadow-[0_0_30px_rgba(34,211,238,0.45)]">
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-linear-to-br from-cyan-300 to-violet-300 text-sm font-black text-slate-900 shadow-[0_0_30px_rgba(34,211,238,0.45)]">
               JC
             </div>
             <div>
@@ -102,7 +102,7 @@ export default function Home() {
             </p>
             <h1 className="max-w-3xl text-4xl font-black leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-7xl">
               Learn Tech Skills At{" "}
-              <span className="bg-gradient-to-r from-cyan-200 via-indigo-200 to-fuchsia-200 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-cyan-200 via-indigo-200 to-fuchsia-200 bg-clip-text text-transparent">
                 Lightning Speed
               </span>
             </h1>
@@ -115,7 +115,7 @@ export default function Home() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/user/register"
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 px-6 py-3 text-sm font-black uppercase tracking-[0.17em] text-slate-950 transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_0_35px_rgba(125,211,252,0.6)]"
+                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-linear-to-r from-cyan-300 via-indigo-300 to-fuchsia-300 px-6 py-3 text-sm font-black uppercase tracking-[0.17em] text-slate-950 transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_0_35px_rgba(125,211,252,0.6)]"
               >
                 Start Learning
                 <span className="transition-transform duration-500 group-hover:translate-x-1">{"->"}</span>
@@ -164,7 +164,7 @@ export default function Home() {
                 className="group relative isolate overflow-hidden rounded-3xl border border-white/15 bg-slate-900/70 p-6 transition-all duration-700 hover:-translate-y-1 hover:border-white/35 hover:shadow-[0_18px_50px_rgba(8,47,73,0.35)]"
               >
                 <div
-                  className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${program.gradient} opacity-0 transition-opacity duration-700 group-hover:opacity-100`}
+                  className={`pointer-events-none absolute inset-0 bg-linear-to-br ${program.gradient} opacity-0 transition-opacity duration-700 group-hover:opacity-100`}
                 />
                 <div className="relative space-y-4">
                   <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${program.chip}`}>
@@ -213,7 +213,7 @@ export default function Home() {
 
         <section
           id="enroll"
-          className="relative overflow-hidden rounded-3xl border border-cyan-200/35 bg-gradient-to-r from-cyan-300/20 via-indigo-300/15 to-fuchsia-300/20 px-6 py-8 sm:px-8"
+          className="relative overflow-hidden rounded-3xl border border-cyan-200/35 bg-linear-to-r from-cyan-300/20 via-indigo-300/15 to-fuchsia-300/20 px-6 py-8 sm:px-8"
         >
           <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full border border-white/25 motion-safe:animate-[spin_22s_linear_infinite]" />
           <div className="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
