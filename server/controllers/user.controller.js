@@ -39,6 +39,7 @@ const generateToken = (user) =>
     {
       sub: user._id.toString(),
       phone: user.phone,
+      role: 'user',
     },
     process.env.JWT_SECRET,
     { expiresIn: '7d' }
