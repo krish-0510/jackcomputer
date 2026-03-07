@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
+const adminRoutes = require('./routes/admin.routes');
 const userRoutes = require('./routes/user.routes');
 
 const app = express();
@@ -12,6 +13,7 @@ app.get('/api/health', (_req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
+app.use('/api/admin', adminRoutes);
 app.use('/api/users', userRoutes);
 
 app.use((err, _req, res, _next) => {
