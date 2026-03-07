@@ -76,6 +76,12 @@ export default function AllStudentsPage() {
             >
               All Students
             </Link>
+            <Link
+              href="/admin/tests"
+              className="rounded-full border border-white/20 px-3 py-1.5 transition hover:border-cyan-200 hover:text-cyan-100"
+            >
+              Tests
+            </Link>
           </nav>
         </header>
 

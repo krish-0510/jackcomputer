@@ -24,6 +24,46 @@ export interface AdminSession {
   admin: AdminProfile;
 }
 
+export interface TestPrize {
+  firstPlace?: number;
+  secondPlace?: number;
+  thirdPlace?: number;
+  special?: number;
+}
+
+export interface TestCustomField {
+  key: string;
+  label: string;
+  inputType: string;
+  required: boolean;
+  value?: any;
+}
+
+export interface Test {
+  id: string;
+  name: string;
+  date: string;
+  duration: number; // in minutes
+  status: "upcoming" | "active" | "completed";
+
+  centers: string[];
+  subjects: string[];
+  prizes?: TestPrize;
+  hasFee: boolean;
+  fee: number;
+  mode: string;
+  testRules?: string;
+  testDescription?: string;
+  isRegistrationOpen: boolean;
+  customFields?: TestCustomField[];
+}
+
+export interface TestRegistration {
+  testId: string;
+  userPhone: string;
+  userEmail: string;
+}
+
 interface RegisterInput {
   name: string;
   phone: string;
@@ -40,6 +80,8 @@ interface LoginInput {
 const USERS_KEY = "jackcomputer_users";
 const SESSION_KEY = "jackcomputer_session";
 const ADMIN_SESSION_KEY = "jackcomputer_admin_session";
+const TESTS_KEY = "jackcomputer_tests";
+const REGISTRATIONS_KEY = "jackcomputer_registrations";
 const E164_PHONE_REGEX = /^\+[1-9]\d{1,14}$/;
 const DOB_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 const ADMIN_DOB_REGEX = /^\d{2}-\d{2}-\d{4}$/;
@@ -276,4 +318,52 @@ export const formatDobForDisplay = (dob: string): string => {
   }
 
   return `${day}-${month}-${year}`;
+};
+
+export const getTests = (): Test[] => readJson<Test[]>(TESTS_KEY, []);
+export const saveTests = (tests: Test[]) => writeJson(TESTS_KEY, tests);
+
+export const getRegistrations = (): TestRegistration[] => readJson<TestRegistration[]>(REGISTRATIONS_KEY, []);
+export const saveRegistrations = (registrations: TestRegistration[]) => writeJson(REGISTRATIONS_KEY, registrations);
+
+export const createTest = (input: Omit<Test, "id">): Test => {
+  const tests = getTests();
+  const newTest: Test = {
+    ...input,
+    id: `test_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`,
+  };
+  saveTests([...tests, newTest]);
+  return newTest;
+};
+
+export const updateTest = (id: string, updates: Partial<Omit<Test, "id">>): Test => {
+  const tests = getTests();
+  const testIndex = tests.findIndex((t) => t.id === id);
+  if (testIndex === -1) throw new Error("Test not found");
+
+  const updatedTest = { ...tests[testIndex], ...updates };
+  tests[testIndex] = updatedTest;
+  saveTests(tests);
+  return updatedTest;
+};
+
+export const deleteTest = (id: string): void => {
+  const tests = getTests();
+  saveTests(tests.filter((t) => t.id !== id));
+
+  const registrations = getRegistrations();
+  saveRegistrations(registrations.filter((r) => r.testId !== id));
+};
+
+export const registerForTest = (testId: string, userPhone: string, userEmail: string): void => {
+  const registrations = getRegistrations();
+  if (registrations.some((r) => r.testId === testId && (r.userPhone === userPhone || r.userEmail === userEmail))) {
+    throw new Error("User already registered for this test");
+  }
+  saveRegistrations([...registrations, { testId, userPhone, userEmail }]);
+};
+
+export const unregisterFromTest = (testId: string, userPhone: string): void => {
+  const registrations = getRegistrations();
+  saveRegistrations(registrations.filter((r) => !(r.testId === testId && r.userPhone === userPhone)));
 };
