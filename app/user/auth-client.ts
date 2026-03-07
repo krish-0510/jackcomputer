@@ -13,6 +13,17 @@ export interface AuthSession {
   user: UserProfile;
 }
 
+export interface AdminProfile {
+  phone: string;
+  dob: string;
+}
+
+export interface AdminSession {
+  token: string;
+  role: "admin";
+  admin: AdminProfile;
+}
+
 interface RegisterInput {
   name: string;
   phone: string;
@@ -28,8 +39,10 @@ interface LoginInput {
 
 const USERS_KEY = "jackcomputer_users";
 const SESSION_KEY = "jackcomputer_session";
+const ADMIN_SESSION_KEY = "jackcomputer_admin_session";
 const E164_PHONE_REGEX = /^\+[1-9]\d{1,14}$/;
 const DOB_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+const ADMIN_DOB_REGEX = /^\d{2}-\d{2}-\d{4}$/;
 
 const canUseStorage = () => typeof window !== "undefined";
 
@@ -81,6 +94,43 @@ const validateDob = (dob: string) => {
   const parsedDate = new Date(`${dob}T00:00:00.000Z`);
   return !Number.isNaN(parsedDate.getTime()) && parsedDate.toISOString().slice(0, 10) === dob;
 };
+
+const normalizeDobForCompare = (dob: string): string => {
+  const normalizedDob = normalizeDob(dob);
+
+  if (validateDob(normalizedDob)) {
+    return normalizedDob;
+  }
+
+  if (!ADMIN_DOB_REGEX.test(normalizedDob)) {
+    return "";
+  }
+
+  const [day, month, year] = normalizedDob.split("-");
+  const parsedDob = `${year}-${month}-${day}`;
+
+  return validateDob(parsedDob) ? parsedDob : "";
+};
+
+const resolveAdminCredentials = (): AdminProfile | null => {
+  const adminPhone = normalizePhone(process.env.NEXT_PUBLIC_ADMIN_PHONE_NUMBER ?? "");
+  const adminDob = normalizeDobForCompare(process.env.NEXT_PUBLIC_ADMIN_DOB ?? "");
+
+  if (!adminPhone || !adminDob) {
+    return null;
+  }
+
+  return {
+    phone: adminPhone,
+    dob: adminDob,
+  };
+};
+
+const createAdminSession = (admin: AdminProfile): AdminSession => ({
+  token: createToken(),
+  role: "admin",
+  admin,
+});
 
 export const registerUser = (input: RegisterInput): AuthSession => {
   const name = input.name.trim();
@@ -155,6 +205,50 @@ export const loginUser = (input: LoginInput): AuthSession => {
 
   return session;
 };
+
+export const loginAdmin = (input: LoginInput): AdminSession => {
+  const phone = normalizePhone(input.phone);
+  const dob = normalizeDobForCompare(input.dob);
+
+  if (!phone || !dob) {
+    throw new Error("phone and dob are required");
+  }
+
+  const adminCredentials = resolveAdminCredentials();
+
+  if (!adminCredentials) {
+    throw new Error("Admin credentials are not configured");
+  }
+
+  if (phone !== adminCredentials.phone || dob !== adminCredentials.dob) {
+    throw new Error("Invalid admin phone or dob");
+  }
+
+  const session = createAdminSession(adminCredentials);
+  writeJson(ADMIN_SESSION_KEY, session);
+
+  return session;
+};
+
+export const getAdminSession = (): AdminSession | null => {
+  const session = readJson<AdminSession | null>(ADMIN_SESSION_KEY, null);
+
+  if (!session || typeof session.token !== "string" || session.role !== "admin" || !session.admin) {
+    return null;
+  }
+
+  return session;
+};
+
+export const clearAdminSession = (): void => {
+  if (!canUseStorage()) {
+    return;
+  }
+
+  window.localStorage.removeItem(ADMIN_SESSION_KEY);
+};
+
+export const getAllStudents = (): UserProfile[] => readUsers();
 
 export const getSession = (): AuthSession | null => {
   const session = readJson<AuthSession | null>(SESSION_KEY, null);
